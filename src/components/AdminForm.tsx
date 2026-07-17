@@ -132,7 +132,7 @@ export default function AdminForm({ vehicle, onSuccess, onCancel }: { vehicle?: 
           <Input required type="number" name="anio" value={formData.anio} onChange={handleChange} />
         </div>
         <div>
-          <label className="text-sm font-medium">Precio (USD)</label>
+          <label className="text-sm font-medium">Precio (U$S)</label>
           <Input required type="number" name="precio" value={formData.precio} onChange={handleChange} />
         </div>
         <div>

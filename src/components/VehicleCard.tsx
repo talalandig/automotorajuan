@@ -7,9 +7,7 @@ import Link from "next/link"
 import { Gauge, Settings, Fuel } from "lucide-react"
 
 export default function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  const formatter = new Intl.NumberFormat('es-UY', {
     maximumFractionDigits: 0,
   })
 
@@ -43,9 +41,7 @@ export default function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
             {vehicle.marca} {vehicle.modelo} {vehicle.anio}
           </h3>
           
-          <div className="font-black text-lg text-[#D60006] mt-0.5 mb-1.5">
-            {formatter.format(vehicle.precio)}
-          </div>
+          <div className="font-bold text-[#D60006] text-xl">U$S {formatter.format(vehicle.precio)}</div>
           
           <div className="mt-auto flex flex-wrap gap-x-3 gap-y-2 text-[11px] sm:text-xs font-medium text-zinc-500">
             <span className="flex items-center gap-1"><Gauge size={14} className="text-zinc-400" /> {vehicle.kilometraje.toLocaleString()} km</span>

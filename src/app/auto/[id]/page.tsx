@@ -74,9 +74,7 @@ export default function AutoPage() {
     )
   }
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  const formatter = new Intl.NumberFormat('es-UY', {
     maximumFractionDigits: 0,
   })
 
@@ -204,7 +202,7 @@ export default function AutoPage() {
               </h2>
               
               <div className="text-4xl md:text-5xl font-bold text-[#D60006] mt-4 mb-8 tracking-tighter">
-                {formatter.format(vehicle.precio)}
+                U$S {formatter.format(vehicle.precio)}
               </div>
 
               <div className="grid grid-cols-2 gap-y-8 gap-x-6 py-8 border-y border-zinc-100 mb-8">

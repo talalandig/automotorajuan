@@ -131,7 +131,7 @@ export default function AdminDashboard() {
                           <div className="font-bold text-zinc-900">{v.marca} {v.modelo}</div>
                           <div className="text-zinc-500">{v.anio} • {v.kilometraje} km</div>
                         </td>
-                        <td className="px-6 py-4 font-bold text-zinc-700">USD {v.precio}</td>
+                        <td className="px-6 py-4 font-bold text-zinc-700">U$S {v.precio}</td>
                         <td className="px-6 py-4">
                           <Badge variant="outline">{v.tipo}</Badge>
                         </td>
