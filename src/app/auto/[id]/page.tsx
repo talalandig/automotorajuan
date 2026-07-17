@@ -166,9 +166,9 @@ export default function AutoPage() {
               )}
             </div>
             
-            {/* Thumbnails */}
+            {/* Thumbnails (Mobile) */}
             {vehicle.fotos.length > 1 && (
-              <div className="flex gap-3 overflow-x-auto pb-2 snap-x hide-scrollbar">
+              <div className="flex lg:hidden gap-3 overflow-x-auto pb-2 snap-x hide-scrollbar">
                 {vehicle.fotos.map((foto, index) => (
                   <button
                     key={index}
@@ -236,6 +236,25 @@ export default function AutoPage() {
           </div>
 
         </div>
+
+        {/* Thumbnails (Desktop) */}
+        {vehicle.fotos.length > 1 && (
+          <div className="hidden lg:flex w-full lg:w-3/5 gap-3 overflow-x-auto snap-x hide-scrollbar mt-6">
+            {vehicle.fotos.map((foto, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentImageIndex(index)}
+                className={`relative w-24 h-24 shrink-0 rounded-xl overflow-hidden snap-start transition-all duration-300 ${
+                  currentImageIndex === index 
+                    ? 'ring-4 ring-[#D60006] ring-offset-2 scale-[0.98]' 
+                    : 'opacity-60 hover:opacity-100 hover:scale-[1.02]'
+                }`}
+              >
+                <img src={foto} alt={`Foto ${index + 1}`} className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Full width Description & Equipamiento section */}
         <div className="mt-8 lg:mt-12 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-zinc-100">
