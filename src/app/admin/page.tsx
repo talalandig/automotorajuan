@@ -71,9 +71,6 @@ export default function AdminDashboard() {
                 <Globe className="mr-2" size={18} /> Ver Web
               </Button>
             </Link>
-            <Button onClick={handleNew} className="bg-[#D60006] hover:bg-[#a30005]">
-              <Plus className="mr-2" size={18} /> Nuevo Auto
-            </Button>
             <Button variant="outline" onClick={handleLogout} className="text-red-600 hover:text-red-700 hover:bg-red-50">
               <LogOut className="mr-2" size={18} /> Salir
             </Button>
@@ -98,8 +95,11 @@ export default function AdminDashboard() {
 
         {activeTab === 'vehiculos' ? (
           <div>
-            <div className="flex justify-end mb-4">
-              <label className="flex items-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer bg-white px-4 py-2 rounded-lg border border-zinc-200 shadow-sm">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+              <Button onClick={handleNew} className="bg-[#D60006] hover:bg-[#a30005] w-full sm:w-auto">
+                <Plus className="mr-2" size={18} /> Nuevo Auto
+              </Button>
+              <label className="flex items-center justify-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer bg-white px-4 py-2.5 sm:py-2 rounded-lg border border-zinc-200 shadow-sm w-full sm:w-auto">
                 <input 
                   type="checkbox" 
                   checked={hideSold} 
