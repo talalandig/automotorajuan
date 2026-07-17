@@ -141,9 +141,6 @@ export default function AutoPage() {
                 alt={`${vehicle.marca} ${vehicle.modelo}`}
                 className="relative z-10 w-full h-full object-contain drop-shadow-xl"
               />
-              <Badge className="absolute top-4 right-4 bg-black/80 backdrop-blur-md text-white border-none shadow-lg text-sm px-3 py-1">
-                {vehicle.tipo}
-              </Badge>
               {vehicle.estado === 'vendido' && (
                 <Badge variant="destructive" className="absolute top-4 left-4 font-bold text-sm px-3 py-1 shadow-lg z-20">
                   VENDIDO
