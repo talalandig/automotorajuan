@@ -45,7 +45,6 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@automotorajuan.com"
               />
             </div>
             <div className="space-y-2">
