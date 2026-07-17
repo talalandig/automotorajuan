@@ -239,26 +239,24 @@ export default function AutoPage() {
 
         </div>
 
-        {/* Full width Description & Equipamiento section */}
-        <div className="mt-8 lg:mt-12 grid grid-cols-1 lg:grid-cols-12">
-          <div className="lg:col-span-7 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-zinc-100">
-            {vehicle.otros && (
-              <div className="mb-10 pb-10 border-b border-zinc-100">
-                <h3 className="text-lg font-bold text-zinc-900 mb-4 flex items-center gap-2">
-                  <Check size={22} className="text-[#D60006]" /> Equipamiento / Otros
-                </h3>
-                <p className="text-zinc-600 leading-relaxed whitespace-pre-wrap pl-8 text-base">
-                  {vehicle.otros}
-                </p>
-              </div>
-            )}
-
-            <div>
-              <h3 className="text-lg font-bold text-zinc-900 mb-4">Descripción general</h3>
-              <p className="text-zinc-600 leading-relaxed whitespace-pre-wrap text-base">
-                {vehicle.descripcion || 'Sin descripción adicional.'}
+        {/* Centered Description & Equipamiento section */}
+        <div className="mt-8 lg:mt-12 max-w-5xl mx-auto bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-zinc-100">
+          {vehicle.otros && (
+            <div className="mb-10 pb-10 border-b border-zinc-100">
+              <h3 className="text-lg font-bold text-zinc-900 mb-4 flex items-center gap-2">
+                <Check size={22} className="text-[#D60006]" /> Equipamiento / Otros
+              </h3>
+              <p className="text-zinc-600 leading-relaxed whitespace-pre-wrap pl-8 text-base">
+                {vehicle.otros}
               </p>
             </div>
+          )}
+
+          <div>
+            <h3 className="text-lg font-bold text-zinc-900 mb-4">Descripción general</h3>
+            <p className="text-zinc-600 leading-relaxed whitespace-pre-wrap text-base">
+              {vehicle.descripcion || 'Sin descripción adicional.'}
+            </p>
           </div>
         </div>
       </div>
