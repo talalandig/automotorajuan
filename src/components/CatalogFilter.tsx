@@ -44,7 +44,7 @@ export default function CatalogFilter({ currentTipo, currentAnio, currentKm, uni
           onChange={(e) => handleFilterChange('tipo', e.target.value)}
           className="w-full px-1 sm:px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-[11px] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#D60006] text-zinc-700 font-medium text-center sm:text-left"
         >
-          <option value="">Tipos</option>
+          <option value="">Tipo</option>
           <option value="Auto">Auto</option>
           <option value="Camioneta">Camioneta</option>
           <option value="Moto">Moto</option>
@@ -55,7 +55,7 @@ export default function CatalogFilter({ currentTipo, currentAnio, currentKm, uni
           onChange={(e) => handleFilterChange('anio', e.target.value)}
           className="w-full px-1 sm:px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-[11px] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#D60006] text-zinc-700 font-medium text-center sm:text-left"
         >
-          <option value="">Años</option>
+          <option value="">Año</option>
           {uniqueYears.map(y => (
             <option key={y} value={String(y)}>{y}</option>
           ))}
@@ -66,7 +66,7 @@ export default function CatalogFilter({ currentTipo, currentAnio, currentKm, uni
           onChange={(e) => handleFilterChange('km', e.target.value)}
           className="w-full px-1 sm:px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-[11px] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#D60006] text-zinc-700 font-medium text-center sm:text-left"
         >
-          <option value="">Kms</option>
+          <option value="">Kilómetros</option>
           <option value="0-55000">0 - 55k</option>
           <option value="55000-85000">55k - 85k</option>
           <option value="85000-100000">85k - 100k</option>
