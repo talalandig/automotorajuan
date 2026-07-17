@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import AdminForm from "@/components/AdminForm"
 import BannerSettings from "@/components/BannerSettings"
-import { LogOut, Plus, Trash2, Edit, Car, Settings, Globe } from "lucide-react"
+import { LogOut, Plus, Trash2, Edit, Car, Settings, Globe, ExternalLink } from "lucide-react"
 import Link from "next/link"
 
 export default function AdminDashboard() {
@@ -143,10 +143,15 @@ export default function AdminDashboard() {
                           </button>
                         </td>
                         <td className="px-6 py-4 text-right space-x-2">
-                          <Button variant="ghost" size="icon" onClick={() => handleEdit(v)} className="text-[#D60006]">
+                          <Link href={`/auto/${v.id}`} target="_blank" rel="noopener noreferrer">
+                            <Button variant="ghost" size="icon" className="text-zinc-500 hover:text-zinc-800" title="Ver publicación">
+                              <ExternalLink size={18} />
+                            </Button>
+                          </Link>
+                          <Button variant="ghost" size="icon" onClick={() => handleEdit(v)} className="text-[#D60006]" title="Editar">
                             <Edit size={18} />
                           </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleDelete(v.id)} className="text-red-600">
+                          <Button variant="ghost" size="icon" onClick={() => handleDelete(v.id)} className="text-red-600" title="Eliminar">
                             <Trash2 size={18} />
                           </Button>
                         </td>
