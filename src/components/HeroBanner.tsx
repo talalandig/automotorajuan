@@ -16,7 +16,7 @@ export default function HeroBanner({ settings }: { settings: SiteSettings | null
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % 120) // Use 120 to be divisible by 1,2,3,4,etc.
-    }, 4000)
+    }, 5000)
 
     return () => clearInterval(interval)
   }, [autoplay, images.length, mobileImages.length])
