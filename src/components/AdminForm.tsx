@@ -11,6 +11,8 @@ import ImageUploader, { ImageItem } from "./ImageUploader"
 import { Search, ChevronDown, Check, Plus } from "lucide-react"
 
 const POPULAR_BRANDS = ["Volkswagen", "Suzuki", "Toyota", "Fiat", "Peugeot", "Chevrolet", "Nissan", "Renault", "Ford", "Hyundai", "Citroën", "Honda", "BMW", "Mercedes-Benz"]
+const CURRENT_YEAR = new Date().getFullYear() + 1
+const YEARS = Array.from({ length: CURRENT_YEAR - 1990 + 1 }, (_, i) => CURRENT_YEAR - i)
 
 export default function AdminForm({ vehicle, onSuccess, onCancel }: { vehicle?: Vehicle | null, onSuccess: () => void, onCancel: () => void }) {
   const [loading, setLoading] = useState(false)
@@ -20,10 +22,17 @@ export default function AdminForm({ vehicle, onSuccess, onCancel }: { vehicle?: 
   const [marcaSearch, setMarcaSearch] = useState("")
   const marcaRef = useRef<HTMLDivElement>(null)
 
+  const [anioOpen, setAnioOpen] = useState(false)
+  const [anioSearch, setAnioSearch] = useState("")
+  const anioRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (marcaRef.current && !marcaRef.current.contains(event.target as Node)) {
         setMarcaOpen(false)
+      }
+      if (anioRef.current && !anioRef.current.contains(event.target as Node)) {
+        setAnioOpen(false)
       }
     }
     document.addEventListener("mousedown", handleClickOutside)
@@ -175,9 +184,48 @@ export default function AdminForm({ vehicle, onSuccess, onCancel }: { vehicle?: 
           <label className="text-sm font-medium">Modelo</label>
           <Input required name="modelo" value={formData.modelo} onChange={handleChange} />
         </div>
-        <div>
-          <label className="text-sm font-medium">Año</label>
-          <Input required type="number" name="anio" value={formData.anio} onChange={handleChange} />
+        <div ref={anioRef} className="relative">
+          <label className="text-sm font-medium mb-1 block">Año</label>
+          <div 
+            onClick={() => { setAnioOpen(!anioOpen); setAnioSearch("") }}
+            className="flex items-center justify-between w-full h-10 px-3 py-2 text-sm border border-zinc-200 rounded-md cursor-pointer bg-white hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[#D60006]"
+          >
+            <span className={formData.anio ? "text-zinc-900" : "text-zinc-500 truncate"}>
+              {formData.anio || "Seleccionar año..."}
+            </span>
+            <ChevronDown size={16} className="text-zinc-400 shrink-0" />
+          </div>
+
+          {anioOpen && (
+            <div className="absolute z-50 w-full mt-1 bg-white border border-zinc-200 rounded-md shadow-lg overflow-hidden">
+              <div className="flex items-center px-3 border-b border-zinc-100">
+                <Search size={14} className="text-zinc-400 mr-2 shrink-0" />
+                <input 
+                  type="text" 
+                  autoFocus
+                  placeholder="Buscar año..." 
+                  value={anioSearch}
+                  onChange={(e) => setAnioSearch(e.target.value)}
+                  className="flex-1 h-10 text-sm focus:outline-none bg-transparent"
+                />
+              </div>
+              <ul className="max-h-[220px] overflow-y-auto p-1 scrollbar-thin">
+                {YEARS.filter(y => y.toString().includes(anioSearch)).map((year) => (
+                  <li 
+                    key={year}
+                    onClick={() => { setFormData({ ...formData, anio: year }); setAnioOpen(false) }}
+                    className="flex items-center justify-between px-2 py-2 text-sm cursor-pointer hover:bg-zinc-100 rounded-sm transition-colors"
+                  >
+                    {year}
+                    {formData.anio === year && <Check size={14} className="text-[#D60006]" />}
+                  </li>
+                ))}
+                {YEARS.filter(y => y.toString().includes(anioSearch)).length === 0 && (
+                  <li className="px-2 py-3 text-sm text-zinc-500 text-center">No se encontraron años</li>
+                )}
+              </ul>
+            </div>
+          )}
         </div>
         <div>
           <label className="text-sm font-medium">Precio (U$S)</label>
