@@ -121,13 +121,13 @@ export default function AutoPage() {
       <div className="flex-1 overflow-y-auto pb-20">
         <div className="max-w-7xl mx-auto px-4 md:px-8 mt-6">
           {/* Back Button */}
-          <button 
-          onClick={() => router.back()}
-          className="flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-medium mb-6 transition-colors"
-        >
-          <ArrowLeft size={18} />
-          Volver al listado
-        </button>
+          <Link 
+            href="/"
+            className="flex items-center gap-2 w-fit text-zinc-500 hover:text-zinc-900 font-medium mb-6 transition-colors"
+          >
+            <ArrowLeft size={18} />
+            Volver al listado
+          </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-4 lg:gap-y-6">
           
