@@ -102,7 +102,7 @@ export default function AdminDashboard() {
             onClick={() => setActiveTab('configuracion')}
             className={`pb-3 font-semibold text-sm transition-colors flex items-center gap-2 border-b-2 ${activeTab === 'configuracion' ? 'border-[#D60006] text-[#D60006]' : 'border-transparent text-zinc-500 hover:text-zinc-800'}`}
           >
-            <Settings size={18} /> Configuración de Página
+            <Settings size={18} /> Configuración Banner
           </button>
           <button 
             onClick={() => setActiveTab('informacion')}
