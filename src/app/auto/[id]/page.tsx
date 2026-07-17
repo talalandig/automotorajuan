@@ -86,9 +86,9 @@ export default function AutoPage() {
       {/* Global Header */}
       <header className="bg-white shrink-0 z-50 shadow-sm border-b border-zinc-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3 flex items-center justify-between">
-          <a href="/" className="flex items-center">
+          <Link href="/" className="flex items-center">
             <img src="/logo11auto.jpg" alt="Automotora Juan Logo" className="h-12 sm:h-16 w-auto object-contain transition-transform hover:scale-105" />
-          </a>
+          </Link>
           <div className="hidden sm:flex items-center gap-6">
             <div className="flex items-center gap-1.5 text-base font-semibold text-zinc-600">
               <MapPin size={20} className="text-[#D60006]" />
