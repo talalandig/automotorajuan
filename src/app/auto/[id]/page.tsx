@@ -156,13 +156,13 @@ export default function AutoPage() {
                 <>
                   <button 
                     onClick={handlePrevImage}
-                    className="absolute left-4 z-30 p-2 md:p-3 bg-white/80 hover:bg-white text-zinc-800 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md"
+                    className="absolute left-4 z-30 p-2 md:p-3 bg-white/80 hover:bg-white text-zinc-800 rounded-full shadow-lg transition-opacity backdrop-blur-md"
                   >
                     <ArrowLeft size={20} />
                   </button>
                   <button 
                     onClick={handleNextImage}
-                    className="absolute right-4 z-30 p-2 md:p-3 bg-white/80 hover:bg-white text-zinc-800 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md rotate-180"
+                    className="absolute right-4 z-30 p-2 md:p-3 bg-white/80 hover:bg-white text-zinc-800 rounded-full shadow-lg transition-opacity backdrop-blur-md rotate-180"
                   >
                     <ArrowLeft size={20} />
                   </button>
