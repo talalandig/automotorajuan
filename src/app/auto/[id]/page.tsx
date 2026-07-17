@@ -227,7 +227,7 @@ export default function AutoPage() {
 
               {/* Removed description from here to put it below */}
 
-              <div className="sticky bottom-4 pt-4 mt-auto bg-white">
+              <div className="pt-4 mt-auto bg-white">
                 <a href={`https://wa.me/59898388560?text=${wppText}`} target="_blank" rel="noopener noreferrer" className="block">
                   <Button className="w-full h-16 text-lg font-bold bg-green-500 hover:bg-green-600 text-white shadow-xl shadow-green-500/20 transition-all hover:-translate-y-1 rounded-xl">
                     <WhatsAppIcon size={24} className="mr-3" />
