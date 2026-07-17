@@ -11,7 +11,7 @@ import Link from "next/link"
 
 export const revalidate = 60 // Revalidate every minute
 
-export default async function Home({ searchParams }: { searchParams: Promise<{ tipo?: string; anio?: string; km?: string }> }) {
+export default async function Home({ searchParams }: { searchParams: Promise<{ tipo?: string; anio?: string; km?: string; precio?: string }> }) {
   const params = await searchParams;
   
   let autos: Vehicle[] | null = []
@@ -37,6 +37,11 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ t
       const [minStr, maxStr] = params.km.split('-')
       if (minStr) query = query.gte('kilometraje', parseInt(minStr))
       if (maxStr) query = query.lte('kilometraje', parseInt(maxStr))
+    }
+    if (params.precio) {
+      const [minStr, maxStr] = params.precio.split('-')
+      if (minStr) query = query.gte('precio', parseInt(minStr))
+      if (maxStr) query = query.lte('precio', parseInt(maxStr))
     }
 
     const { data: fetchedAutos, error: fetchError } = await query
@@ -100,6 +105,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ t
           currentTipo={params.tipo || ''} 
           currentAnio={params.anio || ''} 
           currentKm={params.km || ''}
+          currentPrecio={params.precio || ''}
           uniqueYears={uniqueYears} 
         />
 
