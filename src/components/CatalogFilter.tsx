@@ -34,17 +34,17 @@ export default function CatalogFilter({ currentTipo, currentAnio, currentKm, uni
   }
 
   return (
-    <div className="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm mb-8 flex flex-col sm:flex-row gap-4 items-center justify-between">
-      <div className="flex items-center gap-2 text-zinc-500 font-medium w-full sm:w-auto">
+    <div className="bg-white p-3 sm:p-4 rounded-xl border border-zinc-200 shadow-sm mb-8 flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center justify-between">
+      <div className="flex items-center gap-2 text-zinc-500 font-medium w-full sm:w-auto hidden sm:flex">
         <Filter size={18} /> Filtros
       </div>
-      <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+      <div className="grid grid-cols-3 sm:flex sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
         <select 
           value={currentTipo} 
           onChange={(e) => handleFilterChange('tipo', e.target.value)}
-          className="px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#D60006] text-zinc-700 font-medium"
+          className="w-full px-1 sm:px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-[11px] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#D60006] text-zinc-700 font-medium text-center sm:text-left"
         >
-          <option value="">Todos los tipos</option>
+          <option value="">Tipos</option>
           <option value="Auto">Auto</option>
           <option value="Camioneta">Camioneta</option>
           <option value="Moto">Moto</option>
@@ -53,9 +53,9 @@ export default function CatalogFilter({ currentTipo, currentAnio, currentKm, uni
         <select 
           value={currentAnio} 
           onChange={(e) => handleFilterChange('anio', e.target.value)}
-          className="px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#D60006] text-zinc-700 font-medium"
+          className="w-full px-1 sm:px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-[11px] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#D60006] text-zinc-700 font-medium text-center sm:text-left"
         >
-          <option value="">Cualquier año</option>
+          <option value="">Años</option>
           {uniqueYears.map(y => (
             <option key={y} value={String(y)}>{y}</option>
           ))}
@@ -64,21 +64,21 @@ export default function CatalogFilter({ currentTipo, currentAnio, currentKm, uni
         <select 
           value={currentKm} 
           onChange={(e) => handleFilterChange('km', e.target.value)}
-          className="px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#D60006] text-zinc-700 font-medium"
+          className="w-full px-1 sm:px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-[11px] sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#D60006] text-zinc-700 font-medium text-center sm:text-left"
         >
-          <option value="">Kilometraje</option>
-          <option value="0-55000">0 - 55.000 km</option>
-          <option value="55000-85000">55.000 - 85.000 km</option>
-          <option value="85000-100000">85.000 - 100.000 km</option>
-          <option value="100000-">100.000 km o más</option>
+          <option value="">Kms</option>
+          <option value="0-55000">0 - 55k</option>
+          <option value="55000-85000">55k - 85k</option>
+          <option value="85000-100000">85k - 100k</option>
+          <option value="100000-">100k+</option>
         </select>
 
         {(currentTipo || currentAnio || currentKm) && (
           <button 
             onClick={handleClear} 
-            className="px-6 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 font-medium rounded-lg transition-colors text-sm text-center"
+            className="col-span-3 sm:col-span-1 w-full px-6 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 font-medium rounded-lg transition-colors text-xs sm:text-sm text-center"
           >
-            Limpiar
+            Limpiar filtros
           </button>
         )}
       </div>
