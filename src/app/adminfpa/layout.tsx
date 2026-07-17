@@ -16,8 +16,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         router.push('/adminfpa/login')
       } else if (session && pathname === '/adminfpa/login') {
         router.push('/adminfpa')
+      } else {
+        setLoading(false)
       }
-      setLoading(false)
     }
     
     checkUser()
