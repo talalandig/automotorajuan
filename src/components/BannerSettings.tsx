@@ -26,11 +26,11 @@ export default function BannerSettings() {
       if (error) {
         // Fallback if table doesn't exist yet
         console.error("Error cargando configuración (puede que la tabla site_settings no exista aún):", error)
-        setImageItems([{ type: 'url', url: '/banner_ultimo.jpg' }])
+        setImageItems([{ id: 'default', type: 'url', url: '/banner_ultimo.jpg' }])
         setAutoplay(true)
       } else if (data) {
         const settings = data as SiteSettings
-        setImageItems(settings.banner_images.map(url => ({ type: 'url', url })))
+        setImageItems(settings.banner_images.map((url, i) => ({ id: `url-${i}`, type: 'url', url })))
         setAutoplay(settings.banner_autoplay)
       }
     } catch (err) {
@@ -87,7 +87,7 @@ export default function BannerSettings() {
 
       setSuccessMsg("¡Configuración del banner guardada correctamente!")
       // Reload items to reset files into urls
-      setImageItems(finalUrls.map(url => ({ type: 'url', url })))
+      setImageItems(finalUrls.map((url, i) => ({ id: `url-${i}`, type: 'url', url })))
     } catch (error: any) {
       console.error(error)
       setErrorMsg("Error al guardar: " + (error.message || "revisa la conexión o base de datos"))
