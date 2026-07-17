@@ -12,10 +12,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession()
-      if (!session && pathname !== '/admin/login') {
-        router.push('/admin/login')
-      } else if (session && pathname === '/admin/login') {
-        router.push('/admin')
+      if (!session && pathname !== '/adminfpa/login') {
+        router.push('/adminfpa/login')
+      } else if (session && pathname === '/adminfpa/login') {
+        router.push('/adminfpa')
       }
       setLoading(false)
     }
@@ -23,10 +23,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     checkUser()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session && pathname !== '/admin/login') {
-        router.push('/admin/login')
-      } else if (session && pathname === '/admin/login') {
-        router.push('/admin')
+      if (!session && pathname !== '/adminfpa/login') {
+        router.push('/adminfpa/login')
+      } else if (session && pathname === '/adminfpa/login') {
+        router.push('/adminfpa')
       }
     })
 
