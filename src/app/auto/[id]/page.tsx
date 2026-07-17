@@ -68,7 +68,7 @@ export default function AutoPage() {
   return (
     <div className="min-h-screen bg-zinc-50 pb-20">
       {/* Global Header */}
-      <header className="bg-white relative z-40 shadow-sm border-b border-zinc-200">
+      <header className="bg-white sticky top-0 z-50 shadow-sm border-b border-zinc-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3 flex items-center justify-between">
           <a href="/" className="flex items-center">
             <img src="/logo11auto.jpg" alt="Automotora Juan Logo" className="h-12 sm:h-16 w-auto object-contain transition-transform hover:scale-105" />
