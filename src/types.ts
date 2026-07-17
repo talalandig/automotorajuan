@@ -19,5 +19,6 @@ export type Vehicle = {
 export type SiteSettings = {
   id: number
   banner_images: string[]
+  mobile_banner_images?: string[]
   banner_autoplay: boolean
 }

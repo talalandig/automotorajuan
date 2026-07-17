@@ -10,6 +10,7 @@ export default function BannerSettings() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [imageItems, setImageItems] = useState<ImageItem[]>([])
+  const [mobileImageItems, setMobileImageItems] = useState<ImageItem[]>([])
   const [autoplay, setAutoplay] = useState(true)
   const [errorMsg, setErrorMsg] = useState("")
   const [successMsg, setSuccessMsg] = useState("")
@@ -27,10 +28,12 @@ export default function BannerSettings() {
         // Fallback if table doesn't exist yet
         console.error("Error cargando configuración (puede que la tabla site_settings no exista aún):", error)
         setImageItems([{ id: 'default', type: 'url', url: '/banner_ultimo.jpg' }])
+        setMobileImageItems([{ id: 'default', type: 'url', url: '/bannercelu.jpg' }])
         setAutoplay(true)
       } else if (data) {
         const settings = data as SiteSettings
         setImageItems(settings.banner_images.map((url, i) => ({ id: `url-${i}`, type: 'url', url })))
+        setMobileImageItems((settings.mobile_banner_images || ['/bannercelu.jpg']).map((url, i) => ({ id: `mobile-url-${i}`, type: 'url', url })))
         setAutoplay(settings.banner_autoplay)
       }
     } catch (err) {
@@ -56,38 +59,44 @@ export default function BannerSettings() {
 
     try {
       const finalUrls: string[] = []
-      
       for (const item of imageItems) {
         if (item.type === "url" && item.url) {
           finalUrls.push(item.url)
         } else if (item.type === "file" && item.file) {
           const fileExt = item.file.name.split('.').pop()
           const fileName = `banner-${Math.random()}.${fileExt}`
-          
-          const { error: uploadError } = await supabase.storage
-            .from('autos-fotos')
-            .upload(fileName, item.file)
-            
+          const { error: uploadError } = await supabase.storage.from('autos-fotos').upload(fileName, item.file)
           if (uploadError) throw uploadError
-          
-          const { data: { publicUrl } } = supabase.storage
-            .from('autos-fotos')
-            .getPublicUrl(fileName)
-            
+          const { data: { publicUrl } } = supabase.storage.from('autos-fotos').getPublicUrl(fileName)
           finalUrls.push(publicUrl)
+        }
+      }
+
+      const finalMobileUrls: string[] = []
+      for (const item of mobileImageItems) {
+        if (item.type === "url" && item.url) {
+          finalMobileUrls.push(item.url)
+        } else if (item.type === "file" && item.file) {
+          const fileExt = item.file.name.split('.').pop()
+          const fileName = `banner-mobile-${Math.random()}.${fileExt}`
+          const { error: uploadError } = await supabase.storage.from('autos-fotos').upload(fileName, item.file)
+          if (uploadError) throw uploadError
+          const { data: { publicUrl } } = supabase.storage.from('autos-fotos').getPublicUrl(fileName)
+          finalMobileUrls.push(publicUrl)
         }
       }
 
       // Intentamos actualizar, si no existe intentamos insertar (upsert behavior)
       const { error } = await supabase
         .from('site_settings')
-        .upsert({ id: 1, banner_images: finalUrls, banner_autoplay: autoplay })
+        .upsert({ id: 1, banner_images: finalUrls, mobile_banner_images: finalMobileUrls, banner_autoplay: autoplay })
 
       if (error) throw error
 
       setSuccessMsg("¡Configuración del banner guardada correctamente!")
       // Reload items to reset files into urls
       setImageItems(finalUrls.map((url, i) => ({ id: `url-${i}`, type: 'url', url })))
+      setMobileImageItems(finalMobileUrls.map((url, i) => ({ id: `mobile-url-${i}`, type: 'url', url })))
     } catch (error: any) {
       console.error(error)
       setErrorMsg("Error al guardar: " + (error.message || "revisa la conexión o base de datos"))
@@ -120,6 +129,21 @@ export default function BannerSettings() {
         {imageItems.length > 3 && (
           <p className="text-red-500 text-sm mt-2 font-medium">Has superado el límite de 3 imágenes.</p>
         )}
+      </div>
+
+      <div className="mb-6 border-t border-zinc-100 pt-6">
+        <h2 className="text-xl font-bold text-zinc-900 mb-2">Imágenes para Celulares</h2>
+        <p className="text-sm text-zinc-500 mb-6">
+          Estas fotos se mostrarán exclusivamente cuando se visite la web desde un teléfono móvil. Si no hay ninguna, se usará el banner por defecto.
+        </p>
+        <ImageUploader 
+          initialImages={mobileImageItems.filter(i => i.type === 'url').map(i => i.url!)}
+          onChange={(items) => {
+            setMobileImageItems(items)
+            setErrorMsg("")
+            setSuccessMsg("")
+          }}
+        />
       </div>
 
       <div className="mb-6 border-t border-zinc-100 pt-6">
