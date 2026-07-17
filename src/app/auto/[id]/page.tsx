@@ -191,7 +191,7 @@ export default function AutoPage() {
 
           {/* Columna Derecha: Info */}
           <div className="w-full lg:w-2/5 flex flex-col">
-            <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-6 md:p-8">
+            <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-6 md:p-8 h-full flex flex-col">
               <h2 className="text-3xl md:text-4xl font-black text-zinc-900 leading-none tracking-tight mb-2">
                 {vehicle.marca} <span className="text-zinc-500 font-medium">{vehicle.modelo}</span>
               </h2>
