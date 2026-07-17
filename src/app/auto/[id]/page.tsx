@@ -85,25 +85,29 @@ export default function AutoPage() {
     <div className="h-screen bg-zinc-50 flex flex-col overflow-hidden">
       {/* Global Header */}
       <header className="bg-white shrink-0 z-50 shadow-sm border-b border-zinc-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <img src="/logo11auto.jpg" alt="Automotora Juan Logo" className="h-12 sm:h-16 w-auto object-contain transition-transform hover:scale-105" />
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-2 sm:py-3 flex items-center justify-between">
+          <Link href="/" className="flex items-center shrink-0">
+            <img src="/logo11auto.jpg" alt="Automotora Juan Logo" className="h-10 sm:h-16 w-auto object-contain transition-transform hover:scale-105" />
           </Link>
-          <div className="hidden sm:flex items-center gap-6">
-            <div className="flex items-center gap-1.5 text-base font-semibold text-zinc-600">
-              <MapPin size={20} className="text-[#D60006]" />
-              <span>Agraciada 1668 Salto, Uy.</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Phone size={24} className="text-[#D60006]" />
-              <div className="flex flex-col font-bold text-sm sm:text-base text-zinc-800 leading-tight gap-0.5">
-                <a href="https://wa.me/59898388560" target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors">
-                  098 388 560
-                </a>
-                <a href="https://wa.me/59891057513" target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors">
-                  091 057 513
-                </a>
+          <div className="flex items-center gap-2 sm:gap-6">
+            <div className="flex flex-col items-end sm:flex-row sm:items-center gap-1 sm:gap-6">
+              <div className="flex items-center gap-1 text-[11px] sm:text-base font-semibold text-zinc-600">
+                <MapPin className="text-[#D60006] w-3 h-3 sm:w-5 sm:h-5 shrink-0" />
+                <span className="whitespace-nowrap">Agraciada 1668 Salto, Uy.</span>
               </div>
+              <div className="flex items-center gap-1 sm:gap-2">
+                <Phone className="text-[#D60006] w-3 h-3 sm:w-6 sm:h-6 shrink-0" />
+                <div className="flex flex-row sm:flex-col font-bold text-[11px] sm:text-base text-zinc-800 leading-tight gap-2 sm:gap-0.5">
+                  <a href="https://wa.me/59898388560" target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
+                    098 388 560
+                  </a>
+                  <a href="https://wa.me/59891057513" target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
+                    091 057 513
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="hidden sm:block">
               <AdminNavButton />
             </div>
           </div>
