@@ -62,16 +62,17 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ t
           </Link>
           <div className="flex items-center gap-2 sm:gap-6">
             <div className="flex flex-col items-end sm:flex-row sm:items-center gap-1 sm:gap-6">
-              <div className="flex items-center gap-1 text-[11px] sm:text-base font-semibold text-zinc-600">
+              <div className="flex items-center gap-1 font-bold text-[11px] sm:text-base text-zinc-800">
                 <MapPin className="text-[#D60006] w-3 h-3 sm:w-5 sm:h-5 shrink-0" />
                 <span className="whitespace-nowrap">Agraciada 1668 Salto, Uy.</span>
               </div>
               <div className="flex items-center gap-1 sm:gap-2">
                 <Phone className="text-[#D60006] w-3 h-3 sm:w-6 sm:h-6 shrink-0" />
-                <div className="flex flex-row sm:flex-col font-bold text-[11px] sm:text-base text-zinc-800 leading-tight gap-2 sm:gap-0.5">
+                <div className="flex flex-row sm:flex-col font-bold text-[11px] sm:text-base text-zinc-800 leading-tight gap-2 sm:gap-0.5 items-center sm:items-start">
                   <a href="https://wa.me/59898388560" target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
                     098 388 560
                   </a>
+                  <span className="sm:hidden text-zinc-300 font-normal">|</span>
                   <a href="https://wa.me/59891057513" target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
                     091 057 513
                   </a>
