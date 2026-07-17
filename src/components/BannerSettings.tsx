@@ -135,6 +135,8 @@ export default function BannerSettings() {
         <h2 className="text-xl font-bold text-zinc-900 mb-2">Imágenes para Celulares</h2>
         <p className="text-sm text-zinc-500 mb-6">
           Estas fotos se mostrarán exclusivamente cuando se visite la web desde un teléfono móvil. Si no hay ninguna, se usará el banner por defecto.
+          <br/><br/>
+          💡 <strong>Atención:</strong> Genera el banner con exactamente estas dimensiones: <strong>1080x500 píxeles (ancho x alto)</strong>.
         </p>
         <ImageUploader 
           initialImages={mobileImageItems.filter(i => i.type === 'url').map(i => i.url!)}

@@ -17,11 +17,15 @@ export default function AdminDashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null)
   const [activeTab, setActiveTab] = useState<'vehiculos' | 'configuracion'>('vehiculos')
-  const [hideSold, setHideSold] = useState(true)
+  const [statusFilter, setStatusFilter] = useState<'todos' | 'disponibles' | 'vendidos'>('todos')
   const [searchQuery, setSearchQuery] = useState('')
 
   const filteredVehicles = vehicles
-    .filter(v => hideSold ? v.estado !== 'vendido' : true)
+    .filter(v => {
+      if (statusFilter === 'disponibles') return v.estado === 'disponible'
+      if (statusFilter === 'vendidos') return v.estado === 'vendido'
+      return true
+    })
     .filter(v => 
       searchQuery === '' || 
       `${v.marca} ${v.modelo}`.toLowerCase().includes(searchQuery.toLowerCase())
@@ -121,15 +125,26 @@ export default function AdminDashboard() {
                   />
                 </div>
               </div>
-              <label className="flex items-center justify-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer bg-white px-4 py-2.5 sm:py-2 rounded-lg border border-zinc-200 shadow-sm w-full sm:w-auto">
-                <input 
-                  type="checkbox" 
-                  checked={hideSold} 
-                  onChange={(e) => setHideSold(e.target.checked)}
-                  className="w-4 h-4 rounded border-zinc-300 text-[#D60006] focus:ring-[#D60006]"
-                />
-                Ocultar vendidos en el listado
-              </label>
+              <div className="flex bg-zinc-100 p-1 rounded-lg w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
+                <button
+                  onClick={() => setStatusFilter('todos')}
+                  className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${statusFilter === 'todos' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-700'}`}
+                >
+                  Todos
+                </button>
+                <button
+                  onClick={() => setStatusFilter('disponibles')}
+                  className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${statusFilter === 'disponibles' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-700'}`}
+                >
+                  Disponibles
+                </button>
+                <button
+                  onClick={() => setStatusFilter('vendidos')}
+                  className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${statusFilter === 'vendidos' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-700'}`}
+                >
+                  Vendidos
+                </button>
+              </div>
             </div>
             <div className="bg-white rounded-xl shadow-sm border border-zinc-200 overflow-hidden">
               {loading ? (
