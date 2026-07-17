@@ -183,10 +183,10 @@ export default function AutoPage() {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`relative w-24 h-24 shrink-0 rounded-xl overflow-hidden snap-start transition-all duration-300 ${
+                    className={`relative w-24 h-24 shrink-0 rounded-xl overflow-hidden snap-start transition-all duration-300 border-[3px] ${
                       currentImageIndex === index 
-                        ? 'ring-4 ring-[#D60006] ring-offset-2 scale-[0.98]' 
-                        : 'opacity-60 hover:opacity-100 hover:scale-[1.02]'
+                        ? 'border-[#D60006] scale-[0.98]' 
+                        : 'border-transparent opacity-60 hover:opacity-100 hover:scale-[1.02]'
                     }`}
                   >
                     <img src={foto} alt={`Foto ${index + 1}`} className="w-full h-full object-cover" />
