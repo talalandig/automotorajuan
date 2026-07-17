@@ -1,0 +1,116 @@
+import { supabase } from "@/lib/supabase"
+import { Vehicle, SiteSettings } from "@/types"
+import VehicleCard from "@/components/VehicleCard"
+import WhatsAppButton from "@/components/WhatsAppButton"
+import CatalogFilter from "@/components/CatalogFilter"
+import HeroBanner from "@/components/HeroBanner"
+import AdminNavButton from "@/components/AdminNavButton"
+import { CarFront, MapPin, Phone } from "lucide-react"
+
+export const revalidate = 60 // Revalidate every minute
+
+export default async function Home({ searchParams }: { searchParams: Promise<{ tipo?: string; anio?: string; km?: string }> }) {
+  const params = await searchParams;
+  
+  let autos: Vehicle[] | null = []
+  let uniqueYears: number[] = []
+  let siteSettings: SiteSettings | null = null
+  let error = null
+
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    // 1. Fetch autos
+    let query = supabase
+      .from('vehicles')
+      .select('*')
+      .eq('estado', 'disponible')
+      .order('created_at', { ascending: false })
+
+    if (params.tipo) {
+      query = query.eq('tipo', params.tipo)
+    }
+    if (params.anio) {
+      query = query.eq('anio', parseInt(params.anio))
+    }
+    if (params.km) {
+      const [minStr, maxStr] = params.km.split('-')
+      if (minStr) query = query.gte('kilometraje', parseInt(minStr))
+      if (maxStr) query = query.lte('kilometraje', parseInt(maxStr))
+    }
+
+    const { data: fetchedAutos, error: fetchError } = await query
+    autos = fetchedAutos
+    error = fetchError
+
+    // Get unique years for the filter (from all available cars)
+    const { data: allAvailable } = await supabase.from('vehicles').select('anio').eq('estado', 'disponible')
+    uniqueYears = Array.from(new Set(allAvailable?.map(a => a.anio) || [])).sort((a, b) => b - a)
+
+    // Fetch site settings for banner
+    const { data: settingsData } = await supabase.from('site_settings').select('*').eq('id', 1).single()
+    if (settingsData) {
+      siteSettings = settingsData as SiteSettings
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-zinc-50 font-sans">
+      <header className="bg-white relative z-40 shadow-sm border-b border-zinc-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3 flex items-center justify-between">
+          <a href="/" className="flex items-center">
+            <img src="/logo11auto.jpg" alt="Automotora Juan Logo" className="h-12 sm:h-16 w-auto object-contain transition-transform hover:scale-105" />
+          </a>
+          <div className="hidden sm:flex items-center gap-6">
+            <div className="flex items-center gap-1.5 text-base font-semibold text-zinc-600">
+              <MapPin size={20} className="text-[#D60006]" />
+              <span>Agraciada 1668 Salto, Uy.</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Phone size={24} className="text-[#D60006]" />
+              <div className="flex flex-col font-bold text-sm sm:text-base text-zinc-800 leading-tight gap-0.5">
+                <a href="https://wa.me/59898388560" target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors">
+                  098 388 560
+                </a>
+                <a href="https://wa.me/59891057513" target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors">
+                  091 057 513
+                </a>
+              </div>
+              <AdminNavButton />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <HeroBanner settings={siteSettings} />
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Filters */}
+        <CatalogFilter 
+          currentTipo={params.tipo || ''} 
+          currentAnio={params.anio || ''} 
+          currentKm={params.km || ''}
+          uniqueYears={uniqueYears} 
+        />
+
+        {/* Catalog */}
+        {error ? (
+          <div className="text-center py-12 text-red-500">Error al cargar los vehículos.</div>
+        ) : !autos || autos.length === 0 ? (
+          <div className="text-center py-24">
+            <CarFront size={48} className="mx-auto text-zinc-300 mb-4" />
+            <h3 className="text-xl font-medium text-zinc-900 mb-1">No hay vehículos</h3>
+            <p className="text-zinc-500">Prueba cambiando los filtros de búsqueda.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
+            {autos.map((auto: Vehicle) => (
+              <VehicleCard key={auto.id} vehicle={auto} />
+            ))}
+          </div>
+        )}
+      </main>
+
+      <WhatsAppButton />
+    </div>
+  )
+}
