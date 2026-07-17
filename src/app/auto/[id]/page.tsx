@@ -7,9 +7,12 @@ import { Vehicle, SiteSettings } from "@/types"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Check, Calendar, Fuel, Gauge, Settings, User, MapPin, Phone, X } from "lucide-react"
+import Lightbox from "yet-another-react-lightbox"
+import "yet-another-react-lightbox/styles.css"
 import WhatsAppIcon from "@/components/WhatsAppIcon"
 import Link from "next/link"
 import AdminNavButton from "@/components/AdminNavButton"
+import MobileAdminHeader from "@/components/MobileAdminHeader"
 
 export default function AutoPage() {
   const { id } = useParams()
@@ -114,6 +117,9 @@ export default function AutoPage() {
           </div>
         </div>
       </header>
+
+      {/* Mobile Admin Header */}
+      <MobileAdminHeader />
 
       <div className="flex-1 overflow-y-auto pb-20">
         <div className="max-w-7xl mx-auto px-4 md:px-8 mt-6">

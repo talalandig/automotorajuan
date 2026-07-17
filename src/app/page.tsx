@@ -5,6 +5,7 @@ import WhatsAppButton from "@/components/WhatsAppButton"
 import CatalogFilter from "@/components/CatalogFilter"
 import HeroBanner from "@/components/HeroBanner"
 import AdminNavButton from "@/components/AdminNavButton"
+import MobileAdminHeader from "@/components/MobileAdminHeader"
 import { CarFront, MapPin, Phone } from "lucide-react"
 import Link from "next/link"
 
@@ -89,6 +90,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ t
       <div className="flex-1 overflow-y-auto">
         {/* Hero */}
         <HeroBanner settings={siteSettings} />
+        
+        {/* Mobile Admin Header (Only visible if logged in and on mobile) */}
+        <MobileAdminHeader />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-12 sm:py-12">
         {/* Filters */}
