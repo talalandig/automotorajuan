@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import AdminForm from "@/components/AdminForm"
 import BannerSettings from "@/components/BannerSettings"
-import { LogOut, Plus, Trash2, Edit, Car, Settings, Globe, ExternalLink } from "lucide-react"
+import { LogOut, Plus, Trash2, Edit, Car, Settings, Globe, ExternalLink, Search } from "lucide-react"
 import Link from "next/link"
 
 export default function AdminDashboard() {
@@ -18,6 +18,14 @@ export default function AdminDashboard() {
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null)
   const [activeTab, setActiveTab] = useState<'vehiculos' | 'configuracion'>('vehiculos')
   const [hideSold, setHideSold] = useState(true)
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const filteredVehicles = vehicles
+    .filter(v => hideSold ? v.estado !== 'vendido' : true)
+    .filter(v => 
+      searchQuery === '' || 
+      `${v.marca} ${v.modelo}`.toLowerCase().includes(searchQuery.toLowerCase())
+    )
 
   const loadVehicles = async () => {
     setLoading(true)
@@ -96,9 +104,23 @@ export default function AdminDashboard() {
         {activeTab === 'vehiculos' ? (
           <div>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-              <Button onClick={handleNew} className="bg-[#D60006] hover:bg-[#a30005] w-full sm:w-auto">
-                <Plus className="mr-2" size={18} /> Nuevo Auto
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto flex-1">
+                <Button onClick={handleNew} className="bg-[#D60006] hover:bg-[#a30005] w-full sm:w-auto shrink-0">
+                  <Plus className="mr-2" size={18} /> Nuevo Auto
+                </Button>
+                <div className="relative w-full max-w-sm">
+                  <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <Search size={16} className="text-zinc-400" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Buscar por marca o modelo..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#D60006] focus:border-transparent bg-white shadow-sm"
+                  />
+                </div>
+              </div>
               <label className="flex items-center justify-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer bg-white px-4 py-2.5 sm:py-2 rounded-lg border border-zinc-200 shadow-sm w-full sm:w-auto">
                 <input 
                   type="checkbox" 
@@ -125,7 +147,7 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {(hideSold ? vehicles.filter(v => v.estado !== 'vendido') : vehicles).map((v) => (
+                    {filteredVehicles.map((v) => (
                       <tr key={v.id} className="border-b border-zinc-100 hover:bg-zinc-50 transition-colors">
                         <td className="px-6 py-4">
                           <div className="font-bold text-zinc-900">{v.marca} {v.modelo}</div>
@@ -157,7 +179,7 @@ export default function AdminDashboard() {
                         </td>
                       </tr>
                     ))}
-                    {(hideSold ? vehicles.filter(v => v.estado !== 'vendido') : vehicles).length === 0 && (
+                    {filteredVehicles.length === 0 && (
                       <tr>
                         <td colSpan={5} className="px-6 py-12 text-center text-zinc-500">
                           No hay vehículos para mostrar en esta vista.
