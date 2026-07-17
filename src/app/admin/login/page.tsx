@@ -33,7 +33,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-zinc-100 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Automotora Juan</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">FPA-AUTOMOTORA</CardTitle>
           <CardDescription className="text-center">Ingresa al panel de administración</CardDescription>
         </CardHeader>
         <CardContent>
