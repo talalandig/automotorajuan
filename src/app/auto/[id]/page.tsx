@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabase"
 import { Vehicle, SiteSettings } from "@/types"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Check, Calendar, Fuel, Gauge, Settings, User, MapPin, Phone } from "lucide-react"
+import { ArrowLeft, Check, Calendar, Fuel, Gauge, Settings, User, MapPin, Phone, X } from "lucide-react"
 import WhatsAppIcon from "@/components/WhatsAppIcon"
 import Link from "next/link"
 import AdminNavButton from "@/components/AdminNavButton"
@@ -16,16 +16,32 @@ export default function AutoPage() {
   const router = useRouter()
   const [vehicle, setVehicle] = useState<Vehicle | null>(null)
   const [loading, setLoading] = useState(true)
-  const [mainImage, setMainImage] = useState<string>("")
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0)
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
+
+  const handlePrevImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation()
+    if (vehicle?.fotos?.length) {
+      setCurrentImageIndex((prev) => (prev === 0 ? vehicle.fotos.length - 1 : prev - 1))
+    }
+  }
+
+  const handleNextImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation()
+    if (vehicle?.fotos?.length) {
+      setCurrentImageIndex((prev) => (prev === vehicle.fotos.length - 1 ? 0 : prev + 1))
+    }
+  }
 
   useEffect(() => {
     async function fetchVehicle() {
       try {
         const { data, error } = await supabase.from('vehicles').select('*').eq('id', id).single()
         
+        
         if (error) throw error
         setVehicle(data)
-        setMainImage(data.fotos[0] || "/placeholder.png")
+        setCurrentImageIndex(0)
       } catch (err) {
         console.error("Error fetching vehicle:", err)
       } finally {
@@ -109,16 +125,19 @@ export default function AutoPage() {
           
           {/* Columna Izquierda: Galería */}
           <div className="w-full lg:w-3/5 flex flex-col gap-4">
-            <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-200 shadow-md relative flex items-center justify-center">
+            <div 
+              className="w-full aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-200 shadow-md relative flex items-center justify-center cursor-pointer group"
+              onClick={() => setIsLightboxOpen(true)}
+            >
               {/* Fondo borroso */}
               <img
-                src={mainImage}
+                src={vehicle.fotos[currentImageIndex]}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover opacity-60 blur-2xl scale-110"
               />
               {/* Imagen principal sin recorte */}
               <img
-                src={mainImage}
+                src={vehicle.fotos[currentImageIndex]}
                 alt={`${vehicle.marca} ${vehicle.modelo}`}
                 className="relative z-10 w-full h-full object-contain drop-shadow-xl"
               />
@@ -126,9 +145,27 @@ export default function AutoPage() {
                 {vehicle.tipo}
               </Badge>
               {vehicle.estado === 'vendido' && (
-                <Badge variant="destructive" className="absolute top-4 left-4 font-bold text-sm px-3 py-1 shadow-lg">
+                <Badge variant="destructive" className="absolute top-4 left-4 font-bold text-sm px-3 py-1 shadow-lg z-20">
                   VENDIDO
                 </Badge>
+              )}
+              
+              {/* Arrows */}
+              {vehicle.fotos.length > 1 && (
+                <>
+                  <button 
+                    onClick={handlePrevImage}
+                    className="absolute left-4 z-30 p-2 md:p-3 bg-white/80 hover:bg-white text-zinc-800 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md"
+                  >
+                    <ArrowLeft size={20} />
+                  </button>
+                  <button 
+                    onClick={handleNextImage}
+                    className="absolute right-4 z-30 p-2 md:p-3 bg-white/80 hover:bg-white text-zinc-800 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md rotate-180"
+                  >
+                    <ArrowLeft size={20} />
+                  </button>
+                </>
               )}
             </div>
             
@@ -138,9 +175,9 @@ export default function AutoPage() {
                 {vehicle.fotos.map((foto, index) => (
                   <button
                     key={index}
-                    onClick={() => setMainImage(foto)}
+                    onClick={() => setCurrentImageIndex(index)}
                     className={`relative w-24 h-24 shrink-0 rounded-xl overflow-hidden snap-start transition-all duration-300 ${
-                      mainImage === foto 
+                      currentImageIndex === index 
                         ? 'ring-4 ring-[#D60006] ring-offset-2 scale-[0.98]' 
                         : 'opacity-60 hover:opacity-100 hover:scale-[1.02]'
                     }`}
@@ -222,11 +259,48 @@ export default function AutoPage() {
               {vehicle.descripcion || 'Sin descripción adicional.'}
             </p>
           </div>
-          </div>
         </div>
       </div>
-      </div>
-      
+
+      {/* Lightbox Modal */}
+      {isLightboxOpen && (
+        <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-4">
+          <button 
+            onClick={() => setIsLightboxOpen(false)}
+            className="absolute top-4 right-4 md:top-8 md:right-8 z-50 p-2 md:p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-md"
+          >
+            <X size={24} />
+          </button>
+          
+          <img
+            src={vehicle.fotos[currentImageIndex]}
+            alt="Fullscreen"
+            className="max-w-full max-h-[85vh] object-contain drop-shadow-2xl"
+          />
+          
+          {vehicle.fotos.length > 1 && (
+            <>
+              <button 
+                onClick={handlePrevImage}
+                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-50 p-3 md:p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-md"
+              >
+                <ArrowLeft size={24} />
+              </button>
+              <button 
+                onClick={handleNextImage}
+                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 p-3 md:p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-md rotate-180"
+              >
+                <ArrowLeft size={24} />
+              </button>
+              
+              <div className="absolute bottom-6 left-0 right-0 flex justify-center text-white/60 font-medium tracking-widest text-sm">
+                {currentImageIndex + 1} / {vehicle.fotos.length}
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
       {/* Estilos para ocultar scrollbar en los thumbnails */}
       <style dangerouslySetInnerHTML={{__html: `
         .hide-scrollbar::-webkit-scrollbar {
@@ -238,5 +312,6 @@ export default function AutoPage() {
         }
       `}} />
     </div>
+  </div>
   )
 }
