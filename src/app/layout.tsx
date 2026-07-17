@@ -14,7 +14,14 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "FPA Automóviles",
-  description: "Catálogo de vehículos",
+  description: "Catálogo de vehículos seleccionados",
+  openGraph: {
+    title: "FPA Automóviles",
+    description: "Catálogo de vehículos seleccionados",
+    type: "website",
+    locale: "es_UY",
+    siteName: "FPA Automóviles",
+  },
 };
 
 export const viewport: Viewport = {
