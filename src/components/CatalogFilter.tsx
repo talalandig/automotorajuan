@@ -34,11 +34,11 @@ export default function CatalogFilter({ currentTipo, currentAnio, currentKm, uni
   }
 
   return (
-    <div className="bg-white p-3 sm:p-4 rounded-xl border border-zinc-200 shadow-sm mb-8 flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center justify-between">
-      <div className="flex items-center gap-2 text-zinc-500 font-medium w-full sm:w-auto hidden sm:flex">
-        <Filter size={18} /> Filtros
+    <div className="bg-white p-3 sm:p-4 rounded-xl border border-zinc-200 shadow-sm mb-8 flex flex-row gap-2 sm:gap-4 items-center justify-between">
+      <div className="flex items-center gap-2 text-zinc-500 font-medium shrink-0">
+        <Filter size={18} /> <span className="hidden sm:inline">Filtros</span>
       </div>
-      <div className="grid grid-cols-3 sm:flex sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
+      <div className="grid grid-cols-3 sm:flex sm:flex-row gap-1.5 sm:gap-3 w-full sm:w-auto">
         <select 
           value={currentTipo} 
           onChange={(e) => handleFilterChange('tipo', e.target.value)}
