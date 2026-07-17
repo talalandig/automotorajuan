@@ -10,31 +10,22 @@ import { ArrowLeft, Check, Calendar, Fuel, Gauge, Settings, User, MapPin, Phone 
 import WhatsAppIcon from "@/components/WhatsAppIcon"
 import Link from "next/link"
 import AdminNavButton from "@/components/AdminNavButton"
-import HeroBanner from "@/components/HeroBanner"
 
 export default function AutoPage() {
   const { id } = useParams()
   const router = useRouter()
   const [vehicle, setVehicle] = useState<Vehicle | null>(null)
-  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
   const [loading, setLoading] = useState(true)
   const [mainImage, setMainImage] = useState<string>("")
 
   useEffect(() => {
     async function fetchVehicle() {
       try {
-        const [vehicleRes, settingsRes] = await Promise.all([
-          supabase.from('vehicles').select('*').eq('id', id).single(),
-          supabase.from('site_settings').select('*').eq('id', 1).single()
-        ])
+        const { data, error } = await supabase.from('vehicles').select('*').eq('id', id).single()
         
-        if (vehicleRes.error) throw vehicleRes.error
-        setVehicle(vehicleRes.data)
-        setMainImage(vehicleRes.data.fotos[0] || "/placeholder.png")
-
-        if (!settingsRes.error && settingsRes.data) {
-          setSiteSettings(settingsRes.data as SiteSettings)
-        }
+        if (error) throw error
+        setVehicle(data)
+        setMainImage(data.fotos[0] || "/placeholder.png")
       } catch (err) {
         console.error("Error fetching vehicle:", err)
       } finally {
@@ -102,9 +93,6 @@ export default function AutoPage() {
           </div>
         </div>
       </header>
-
-      {/* Hero */}
-      <HeroBanner settings={siteSettings} />
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 mt-6">
         {/* Back Button */}
