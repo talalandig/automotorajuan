@@ -154,6 +154,13 @@ export default function AutoPage() {
                   VENDIDO
                 </Badge>
               )}
+
+              {/* Contador de fotos */}
+              {vehicle.fotos.length > 1 && (
+                <div className="absolute bottom-4 left-4 z-30 bg-black/60 text-white px-3 py-1 rounded-lg backdrop-blur-md font-semibold text-xs sm:text-sm tracking-wide shadow-lg">
+                  {currentImageIndex + 1} / {vehicle.fotos.length}
+                </div>
+              )}
               
               {/* Arrows */}
               {vehicle.fotos.length > 1 && (
