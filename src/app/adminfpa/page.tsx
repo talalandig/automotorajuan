@@ -158,11 +158,17 @@ export default function AdminDashboard() {
                           <Badge variant="outline">{v.tipo}</Badge>
                         </td>
                         <td className="px-6 py-4">
-                          <button onClick={() => toggleEstado(v)} className="focus:outline-none">
-                            <Badge className={v.estado === 'disponible' ? 'bg-green-100 text-green-700 hover:bg-green-200 border-none' : 'bg-zinc-200 text-zinc-600 hover:bg-zinc-300 border-none'}>
+                          <div className="flex flex-col items-start gap-1.5">
+                            <Badge className={v.estado === 'disponible' ? 'bg-green-100 text-green-700 border-none' : 'bg-zinc-200 text-zinc-600 border-none'}>
                               {v.estado.toUpperCase()}
                             </Badge>
-                          </button>
+                            <button 
+                              onClick={() => toggleEstado(v)} 
+                              className="text-[10px] font-bold text-zinc-400 hover:text-[#D60006] uppercase tracking-wider transition-colors"
+                            >
+                              Cambiar a {v.estado === 'disponible' ? 'Vendido' : 'Disponible'}
+                            </button>
+                          </div>
                         </td>
                         <td className="px-6 py-4 text-right space-x-2">
                           <Link href={`/auto/${v.id}`} target="_blank" rel="noopener noreferrer">
