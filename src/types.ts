@@ -21,4 +21,8 @@ export type SiteSettings = {
   banner_images: string[]
   mobile_banner_images?: string[]
   banner_autoplay: boolean
+  whatsapp_number?: string
+  address?: string
+  phone1?: string
+  phone2?: string
 }

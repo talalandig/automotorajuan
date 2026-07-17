@@ -14,11 +14,13 @@ import AdminNavButton from "@/components/AdminNavButton"
 import MobileAdminHeader from "@/components/MobileAdminHeader"
 
 export default function AutoPage() {
-  const { id } = useParams()
+  const params = useParams()
+  const id = params?.id as string
   const router = useRouter()
   const [vehicle, setVehicle] = useState<Vehicle | null>(null)
   const [loading, setLoading] = useState(true)
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0)
+  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
 
   const handlePrevImage = (e?: React.MouseEvent) => {
@@ -38,11 +40,14 @@ export default function AutoPage() {
   useEffect(() => {
     async function fetchVehicle() {
       try {
-        const { data, error } = await supabase.from('vehicles').select('*').eq('id', id).single()
+        const [vehicleRes, settingsRes] = await Promise.all([
+          supabase.from('vehicles').select('*').eq('id', id).single(),
+          supabase.from('site_settings').select('*').eq('id', 1).single()
+        ])
         
-        
-        if (error) throw error
-        setVehicle(data)
+        if (vehicleRes.error) throw vehicleRes.error
+        setVehicle(vehicleRes.data)
+        if (settingsRes.data) setSiteSettings(settingsRes.data as SiteSettings)
         setCurrentImageIndex(0)
       } catch (err) {
         console.error("Error fetching vehicle:", err)
@@ -93,17 +98,17 @@ export default function AutoPage() {
             <div className="flex flex-col items-end sm:flex-row sm:items-center gap-1 sm:gap-6">
               <div className="flex items-center gap-1 font-bold text-[11px] sm:text-base text-zinc-800">
                 <MapPin className="text-[#D60006] w-3 h-3 sm:w-5 sm:h-5 shrink-0" />
-                <span className="whitespace-nowrap">Agraciada 1668 Salto, Uy.</span>
+                <span className="whitespace-nowrap">{siteSettings?.address || "Agraciada 1668 Salto, Uy."}</span>
               </div>
               <div className="flex items-center gap-1 sm:gap-2">
                 <Phone className="text-[#D60006] w-3 h-3 sm:w-6 sm:h-6 shrink-0" />
                 <div className="flex flex-row sm:flex-col font-bold text-[11px] sm:text-base text-zinc-800 leading-tight gap-2 sm:gap-0.5 items-center sm:items-start">
-                  <a href="https://wa.me/59898388560" target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
-                    098 388 560
+                  <a href={`https://wa.me/${(siteSettings?.phone1 || "098 388 560").replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
+                    {siteSettings?.phone1 || "098 388 560"}
                   </a>
                   <span className="sm:hidden text-zinc-300 font-normal">|</span>
-                  <a href="https://wa.me/59891057513" target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
-                    091 057 513
+                  <a href={`https://wa.me/${(siteSettings?.phone2 || "091 057 513").replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
+                    {siteSettings?.phone2 || "091 057 513"}
                   </a>
                 </div>
               </div>
@@ -240,7 +245,7 @@ export default function AutoPage() {
               {/* Removed description from here to put it below */}
 
               <div className="pt-4 mt-auto bg-white">
-                <a href={`https://wa.me/59898388560?text=${wppText}`} target="_blank" rel="noopener noreferrer" className="block">
+                <a href={`https://wa.me/${(siteSettings?.whatsapp_number || "59898388560").replace(/\D/g, "")}?text=${wppText}`} target="_blank" rel="noopener noreferrer" className="block">
                   <Button className="w-full h-16 text-lg font-bold bg-green-500 hover:bg-green-600 text-white shadow-xl shadow-green-500/20 transition-all hover:-translate-y-1 rounded-xl">
                     <WhatsAppIcon size={24} className="mr-3" />
                     Consultar por WhatsApp

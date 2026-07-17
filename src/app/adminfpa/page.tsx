@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import AdminForm from "@/components/AdminForm"
 import BannerSettings from "@/components/BannerSettings"
-import { LogOut, Plus, Trash2, Edit, Car, Settings, Globe, ExternalLink, Search } from "lucide-react"
+import InfoSettings from "@/components/InfoSettings"
+import { LogOut, Plus, Trash2, Edit, Car, Settings, Globe, ExternalLink, Search, Info } from "lucide-react"
 import Link from "next/link"
 
 export default function AdminDashboard() {
@@ -16,7 +17,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null)
-  const [activeTab, setActiveTab] = useState<'vehiculos' | 'configuracion'>('vehiculos')
+  const [activeTab, setActiveTab] = useState<'vehiculos' | 'configuracion' | 'informacion'>('vehiculos')
   const [statusFilter, setStatusFilter] = useState<'todos' | 'disponibles' | 'vendidos'>('todos')
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -102,6 +103,12 @@ export default function AdminDashboard() {
             className={`pb-3 font-semibold text-sm transition-colors flex items-center gap-2 border-b-2 ${activeTab === 'configuracion' ? 'border-[#D60006] text-[#D60006]' : 'border-transparent text-zinc-500 hover:text-zinc-800'}`}
           >
             <Settings size={18} /> Configuración de Página
+          </button>
+          <button 
+            onClick={() => setActiveTab('informacion')}
+            className={`pb-3 font-semibold text-sm transition-colors flex items-center gap-2 border-b-2 ${activeTab === 'informacion' ? 'border-[#D60006] text-[#D60006]' : 'border-transparent text-zinc-500 hover:text-zinc-800'}`}
+          >
+            <Info size={18} /> Información
           </button>
         </div>
 
@@ -213,8 +220,10 @@ export default function AdminDashboard() {
             )}
           </div>
           </div>
-        ) : (
+        ) : activeTab === 'configuracion' ? (
           <BannerSettings />
+        ) : (
+          <InfoSettings />
         )}
       </div>
 
