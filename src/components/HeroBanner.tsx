@@ -35,7 +35,7 @@ export default function HeroBanner({ settings }: { settings: SiteSettings | null
 
       {/* Mobile Banner (hidden on desktop) */}
       <img
-        src="/movil1banner.jpg"
+        src="/bannercelu.jpg"
         alt="Banner Móvil"
         className="sm:hidden w-full h-auto object-cover object-top relative z-10"
       />
