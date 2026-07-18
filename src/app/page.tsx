@@ -8,6 +8,7 @@ import AdminNavButton from "@/components/AdminNavButton"
 import MobileAdminHeader from "@/components/MobileAdminHeader"
 import { CarFront, MapPin, Phone } from "lucide-react"
 import Link from "next/link"
+import { formatWhatsAppNumber } from "@/lib/utils"
 
 export const revalidate = 60 // Revalidate every minute
 
@@ -75,11 +76,11 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ t
               <div className="flex items-center gap-1 sm:gap-2">
                 <Phone className="text-[#D60006] w-3 h-3 sm:w-6 sm:h-6 shrink-0" />
                 <div className="flex flex-row sm:flex-col font-bold text-[11px] sm:text-base text-zinc-800 leading-tight gap-2 sm:gap-0.5 items-center sm:items-start">
-                  <a href={`https://wa.me/${(siteSettings?.phone1 || "098 388 560").replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
+                  <a href={`https://wa.me/${formatWhatsAppNumber(siteSettings?.phone1 || "098 388 560")}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
                     {siteSettings?.phone1 || "098 388 560"}
                   </a>
                   <span className="sm:hidden text-zinc-300 font-normal">|</span>
-                  <a href={`https://wa.me/${(siteSettings?.phone2 || "091 057 513").replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
+                  <a href={`https://wa.me/${formatWhatsAppNumber(siteSettings?.phone2 || "091 057 513")}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
                     {siteSettings?.phone2 || "091 057 513"}
                   </a>
                 </div>

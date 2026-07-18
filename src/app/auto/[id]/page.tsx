@@ -6,8 +6,8 @@ import { supabase } from "@/lib/supabase"
 import { Vehicle, SiteSettings } from "@/types"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Check, Calendar, Fuel, Gauge, Settings, User, MapPin, Phone, X } from "lucide-react"
-
+import { MapPin, Phone, ArrowLeft, Fuel, Calendar, Gauge, Settings, ShieldCheck, Tag } from "lucide-react"
+import { formatWhatsAppNumber } from "@/lib/utils"
 import WhatsAppIcon from "@/components/WhatsAppIcon"
 import Link from "next/link"
 import AdminNavButton from "@/components/AdminNavButton"
@@ -103,11 +103,11 @@ export default function AutoPage() {
               <div className="flex items-center gap-1 sm:gap-2">
                 <Phone className="text-[#D60006] w-3 h-3 sm:w-6 sm:h-6 shrink-0" />
                 <div className="flex flex-row sm:flex-col font-bold text-[11px] sm:text-base text-zinc-800 leading-tight gap-2 sm:gap-0.5 items-center sm:items-start">
-                  <a href={`https://wa.me/${(siteSettings?.phone1 || "098 388 560").replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
+                  <a href={`https://wa.me/${formatWhatsAppNumber(siteSettings?.phone1 || "098 388 560")}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
                     {siteSettings?.phone1 || "098 388 560"}
                   </a>
                   <span className="sm:hidden text-zinc-300 font-normal">|</span>
-                  <a href={`https://wa.me/${(siteSettings?.phone2 || "091 057 513").replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
+                  <a href={`https://wa.me/${formatWhatsAppNumber(siteSettings?.phone2 || "091 057 513")}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#D60006] transition-colors whitespace-nowrap">
                     {siteSettings?.phone2 || "091 057 513"}
                   </a>
                 </div>
@@ -245,7 +245,7 @@ export default function AutoPage() {
               {/* Removed description from here to put it below */}
 
               <div className="pt-4 mt-auto bg-white">
-                <a href={`https://wa.me/${(siteSettings?.whatsapp_number || "59898388560").replace(/\D/g, "")}?text=${wppText}`} target="_blank" rel="noopener noreferrer" className="block">
+                <a href={`https://wa.me/${formatWhatsAppNumber(siteSettings?.whatsapp_number || "098 388 560")}?text=${wppText}`} target="_blank" rel="noopener noreferrer" className="block">
                   <Button className="w-full h-16 text-lg font-bold bg-green-500 hover:bg-green-600 text-white shadow-xl shadow-green-500/20 transition-all hover:-translate-y-1 rounded-xl">
                     <WhatsAppIcon size={24} className="mr-3" />
                     Consultar por WhatsApp
